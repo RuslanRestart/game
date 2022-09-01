@@ -32,10 +32,7 @@ public class RESTController {
 
     @PostMapping()
     public Player savePlayer(@RequestBody Player player){
-        if (!playerService.validateParameters(player)){
-            System.out.println("Проверьте корректность ввода данных. Игрок не сохранен!");
-            return null;
-        };
+        playerService.validateParameters(player);
         playerService.setAndCalculationsLevelAndUntilNextLevel(player);
         playerService.savePlayer(player);
         System.out.println("Игрок успешно сохранён!");

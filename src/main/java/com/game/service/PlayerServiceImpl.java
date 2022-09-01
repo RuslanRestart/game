@@ -109,7 +109,7 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public Boolean validationId(long id) {
+    public void validationId(long id) {
         if (id <= 0){
             ZeroIdException ex = new ZeroIdException("id должен быть > 0!");
             System.out.println(ex.getMessage());
@@ -118,7 +118,7 @@ public class PlayerServiceImpl implements PlayerService{
             NoSuchPlayerException ex = new NoSuchPlayerException("По заданному id = " + id + " игрок не найден!");
             System.out.println(ex.getMessage());
             throw ex;
-        }else return true;
+        }
     }
 
     @Override
