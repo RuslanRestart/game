@@ -20,4 +20,6 @@ public interface PlayerService {
      void setAndCalculationsLevelAndUntilNextLevel(Player player); //подсчет уровня и кол-а опыта до след. уровня и установка значений
 
     Boolean validationId(long id); //валидация id
+
+    Boolean validateParameters(Player player); //валидация параметров entity
 }

@@ -12,15 +12,13 @@ import java.util.Date;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    String query = "select p from Player p where " +
+    @Query("select p from Player p where " +
             "(p.name like concat('%', :name, '%') or :name is null) and (p.title like concat('%', :title, '%') or :title is null)" +
             "and (p.race like :race or :race is null ) and (p.profession like :profession or :profession is null)" +
             "and (p.birthday >= :after or :after is null) and (p.birthday <= :before or :before is null)" +
             "and (p.banned = :banned or :banned is null )" +
             "and (p.experience >= :minExperience or :minExperience is null) and (p.experience <= :maxExperience or :maxExperience is null)" +
-            "and (p.level >= :minLevel or :minLevel is null) and (p.level <= :maxLevel or :maxLevel is null )";
-
-    @Query(query)
+            "and (p.level >= :minLevel or :minLevel is null) and (p.level <= :maxLevel or :maxLevel is null )")
     Page<Player> getAllByFilters(
             @Param("name") String name, @Param("title") String title,
             @Param("race") Race race, @Param("profession")Profession profession,
@@ -31,13 +29,4 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
             Pageable pageable
     );
 
-    @Query(query)
-    long getCountPlayersByFilters(
-            @Param("name") String name, @Param("title") String title,
-            @Param("race") Race race, @Param("profession")Profession profession,
-            @Param("after") Date after, @Param("before") Date before,
-            @Param("banned")Boolean banned,
-            @Param("minExperience") Integer minExperience, @Param("maxExperience") Integer maxExperience,
-            @Param("minLevel") Integer minLevel, @Param("maxLevel") Integer maxLevel
-    );
 }

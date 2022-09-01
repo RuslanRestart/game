@@ -32,34 +32,10 @@ public class RESTController {
 
     @PostMapping()
     public Player savePlayer(@RequestBody Player player){
-
-        if (player.getName() == null && player.getTitle() == null && player.getBirthday() == null
-                && player.getRace() == null && player.getProfession() == null && player.getBanned() == null
-                && player.getExperience() == null){
-            RequestBodyIsEmptyException ex = new RequestBodyIsEmptyException("Не указаны данные для создания игрока!");
-            System.out.println(ex.getMessage());
-            throw ex;
-        }
-
-        if (player.getBirthday().getTime()<0 || 1900 + player.getBirthday().getYear()<2000 || 1900 + player.getBirthday().getYear()>3000){
-            NegativeBirthdayException ex = new NegativeBirthdayException("Дата рождения отрицательная или выходит за диапазон 2000-3000 включительно!");
-            System.out.println(ex.getMessage());
-            throw ex;
-        }
-
-        if (player.getName().length()>12 || player.getTitle().length()>30){
-            TitleOrNameLengthTooBigException ex = new TitleOrNameLengthTooBigException("Звание игрока превышает 30 символов" +
-                    " или имя игрока превышает 12 символов!");
-            System.out.println(ex.getMessage());
-            throw ex;
-        }
-
-        if (player.getExperience() <0 || player.getExperience() > 10_000_000){
-            ExperienceIsTooBigOrNegativeException ex = new ExperienceIsTooBigOrNegativeException("Указанное значение опыта недопустимо. Требуется 0 - 10 000 000");
-            System.out.println(ex.getMessage());
-            throw ex;
-        }
-
+        if (!playerService.validateParameters(player)){
+            System.out.println("Проверьте корректность ввода данных. Игрок не сохранен!");
+            return null;
+        };
         playerService.setAndCalculationsLevelAndUntilNextLevel(player);
         playerService.savePlayer(player);
         System.out.println("Игрок успешно сохранён!");

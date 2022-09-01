@@ -4,8 +4,7 @@ import com.game.controller.PlayerOrder;
 import com.game.entity.Player;
 import com.game.entity.Profession;
 import com.game.entity.Race;
-import com.game.exceptions.NoSuchPlayerException;
-import com.game.exceptions.ZeroIdException;
+import com.game.exceptions.*;
 import com.game.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -122,4 +121,35 @@ public class PlayerServiceImpl implements PlayerService{
         }else return true;
     }
 
+    @Override
+    public Boolean validateParameters(Player player) {
+        if (player.getName() == null && player.getTitle() == null && player.getBirthday() == null
+                && player.getRace() == null && player.getProfession() == null && player.getBanned() == null
+                && player.getExperience() == null){
+            RequestBodyIsEmptyException ex = new RequestBodyIsEmptyException("Не указаны данные для создания игрока!");
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
+
+        if (player.getBirthday().getTime()<0 || 1900 + player.getBirthday().getYear()<2000 || 1900 + player.getBirthday().getYear()>3000){
+            NegativeBirthdayException ex = new NegativeBirthdayException("Дата рождения отрицательная или выходит за диапазон 2000-3000 включительно!");
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
+
+        if (player.getName().length()>12 || player.getTitle().length()>30){
+            TitleOrNameLengthTooBigException ex = new TitleOrNameLengthTooBigException("Звание игрока превышает 30 символов" +
+                    " или имя игрока превышает 12 символов!");
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
+
+        if (player.getExperience() <0 || player.getExperience() > 10_000_000){
+            ExperienceIsTooBigOrNegativeException ex = new ExperienceIsTooBigOrNegativeException("Указанное значение опыта недопустимо. Требуется 0 - 10 000 000");
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
+
+        return true;
+    }
 }
