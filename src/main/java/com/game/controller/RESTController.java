@@ -20,7 +20,7 @@ public class RESTController {
 
     @GetMapping()
     public List<Player> getAllPlayers(@RequestParam Map<String, String> params){
-        return playerService.getAllPlayers(params);
+        return playerService.getAllPlayersPage(params).getContent();
     }
 
     @GetMapping("{id}")
@@ -61,6 +61,6 @@ public class RESTController {
 
     @GetMapping("count")
     public long getCountPlayersByFilters(@RequestParam Map<String, String> params){
-        return playerService.getCountPlayersByFilters(params);
+        return playerService.getAllPlayersPage(params).getTotalElements();
     }
 }

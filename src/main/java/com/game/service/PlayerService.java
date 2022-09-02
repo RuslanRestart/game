@@ -1,21 +1,18 @@
 package com.game.service;
 
 import com.game.entity.Player;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 import java.util.Map;
 
 public interface PlayerService {
 
-     List<Player> getAllPlayers(Map<String, String> params); //получить список всех игроков
+    Page<Player> getAllPlayersPage(Map<String, String> params); //получить страницу со всеми игроками
 
      Player savePlayer(Player player); //создать игрока
 
      void deletePlayer(int id); //удалить игрока
 
      Player getPlayer(int id); //получить игрока по id
-
-    long getCountPlayersByFilters(Map<String, String> params); //получить кол-о игроков по заданным фильтрам
 
      void calculationAndSetLevelAndUntilNextLevel(Player player); //подсчет уровня и кол-а опыта до след. уровня и установка значений
 

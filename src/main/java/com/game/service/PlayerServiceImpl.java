@@ -7,13 +7,13 @@ import com.game.entity.Race;
 import com.game.exception_handling.*;
 import com.game.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,7 +28,7 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
-    public List<Player> getAllPlayers(Map<String, String> params) {
+    public Page<Player> getAllPlayersPage(Map<String, String> params){
         String name = params.getOrDefault("name", null);
         String title = params.getOrDefault("title", null);
 
@@ -51,35 +51,7 @@ public class PlayerServiceImpl implements PlayerService{
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.DEFAULT_DIRECTION, order.getFieldName());
         return playerRepository.getAllByFilters(name, title, race, profession, after, before,
-                banned, minExperience, maxExperience, minLevel, maxLevel, pageable).getContent();
-    }
-
-    @Override
-    public long getCountPlayersByFilters(Map<String, String> params) {
-        String name = params.getOrDefault("name", null);
-        String title = params.getOrDefault("title", null);
-
-        Race race = params.containsKey("race") ? Race.valueOf(params.get("race")) : null;
-        Profession profession = params.containsKey("profession") ? Profession.valueOf(params.get("profession")) : null;
-
-        Date after = params.containsKey("after") ? new Date(Long.parseLong(params.get("after"))) : null;
-        Date before = params.containsKey("before") ? new Date(Long.parseLong(params.get("before"))) : null;
-
-        Boolean banned = params.containsKey("banned") ? Boolean.parseBoolean(params.get("banned")) : null;
-
-        Integer minExperience = params.containsKey("minExperience") ? Integer.parseInt(params.get("minExperience")) : null;
-        Integer maxExperience = params.containsKey("maxExperience") ? Integer.parseInt(params.get("maxExperience")) : null;
-        Integer minLevel = params.containsKey("minLevel") ? Integer.parseInt(params.get("minLevel")) : null;
-        Integer maxLevel = params.containsKey("maxLevel") ? Integer.parseInt(params.get("maxLevel")) : null;
-
-        int pageNumber = params.containsKey("pageNumber") ? Integer.parseInt(params.get("pageNumber")) : 0;
-        int pageSize = params.containsKey("pageSize") ? Integer.parseInt(params.get("pageSize")) : 3;
-        PlayerOrder order = params.containsKey("order") ? PlayerOrder.valueOf(params.get("order")) : PlayerOrder.ID;
-
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.DEFAULT_DIRECTION, order.getFieldName());
-
-        return playerRepository.getAllByFilters(name, title, race, profession, after, before, banned,
-                minExperience, maxExperience, minLevel, maxLevel, pageable).getTotalElements();
+                banned, minExperience, maxExperience, minLevel, maxLevel, pageable);
     }
 
     @Override
