@@ -12,6 +12,7 @@ import java.util.Date;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
+
     @Query("select p from Player p where " +
             "(p.name like concat('%', :name, '%') or :name is null) and (p.title like concat('%', :title, '%') or :title is null)" +
             "and (p.race like :race or :race is null ) and (p.profession like :profession or :profession is null)" +

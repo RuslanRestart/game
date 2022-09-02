@@ -17,9 +17,20 @@ public interface PlayerService {
 
     long getCountPlayersByFilters(Map<String, String> params); //получить кол-о игроков по заданным фильтрам
 
-     void setAndCalculationsLevelAndUntilNextLevel(Player player); //подсчет уровня и кол-а опыта до след. уровня и установка значений
+     void calculationAndSetLevelAndUntilNextLevel(Player player); //подсчет уровня и кол-а опыта до след. уровня и установка значений
 
+    void setPlayerParameters(Player requestPlayer, Player DbPlayer); //установка значений игроку при обновлении
+
+    //Валидация:
     void validationId(long id); //валидация id
 
-    Boolean validateParameters(Player player); //валидация параметров entity
+    Boolean validationPlayer(Player player); //валидация всех параметров Entity
+
+    Boolean validateParameters(Player player);
+
+    Boolean validateBirthdate(Player player);
+
+    Boolean validateTitleAndName(Player player);
+
+    Boolean validateExperience(Player player);
 }

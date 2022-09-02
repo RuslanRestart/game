@@ -1,5 +1,8 @@
-package com.game;
+package com.game.exception_handling;
 
+/**
+ * Класс для передачи текста из исключения в ответ сервера
+ */
 public class PlayerIncorrectData {
 
     private String info; //текст для исключения

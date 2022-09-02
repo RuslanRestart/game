@@ -1,6 +1,5 @@
 package com.game.controller.utils;
 
-import com.game.controller.PlayerOrder;
 import com.game.entity.Profession;
 import com.game.entity.Race;
 
